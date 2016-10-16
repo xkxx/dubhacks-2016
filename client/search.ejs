@@ -1,0 +1,37 @@
+<% include partials/header %>
+
+
+<!--<h1>Enter the text below</h1>-->
+
+<!--<form action = "/results" method="GET">-->
+<!--    <input name  = "name" type="text">-->
+<!--    <input type="submit">-->
+<!--</form>-->
+<style type="text/css">
+    
+</style>
+   <div class="ui main text container segment" style="margin-top:100px">
+    <h1 style="margin-top:50px"class="ui header">
+      <i class="massive edit icon"></i>
+      <div style="display:inline;" class="content">
+        Make it easy
+        <div class="sub header">Enter the text you want to simplify</div>
+      </div>
+    </h1>
+
+    <div class="ui fitted divider"></div>
+
+    <div class="ui container " style="margin:auto; width:60%;">
+        <form action="/find" method="POST"class="ui form">
+            <div class="field">
+                
+                <textarea name="d" placeholder="Paste your text here!"></textarea>
+            </div>
+                <button class="ui teal button">Simplify it!</button>
+        </form>
+    </div>
+</div> 
+
+
+
+<% include partials/footer %>
