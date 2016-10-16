@@ -58,9 +58,7 @@ def parse_syn(res, pos):
 def reconjugate(syn, tok):
   tag = tok.tag_
   if tag in tag_map:
-    return conjugate(syn, tag_map[tag])
-  if tag.startswith('V'):
-    return conjugate(syn, tag=tag, parse=True)
+    return conjugate(syn, tag_map[tag], parse=True)
   if tag == 'JJR' or tag == 'RBR':
     return comparative(syn)
   if tag == 'JJS' or tag == 'RBS':
