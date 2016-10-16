@@ -3,6 +3,18 @@ import spacy
 import spacy.parts_of_speech as POS
 import requests
 
+#Uses a csv file formatted as "word, line number"\n. Loads said csv file into a dictionary
+def load_ranks():
+    corpus = open("../data/word_order.csv").readlines()
+    print corpus[0:10]
+    rank = {}
+
+    for line in corpus:
+        line = line.split(",")
+        rank[line[0]] = int(line[1][1:-1])
+
+    return rank
+
 #Contains the relative frequency of all the words in a corpus, with the most frequently used word ranked "1"
 ranks = load_ranks()
 
@@ -53,7 +65,7 @@ def parse_syn(res, pos):
     if item['partOfSpeech'] == pos:
       return item['synonyms']
   return []
-  
+
 def reconjugate(syn, tok):
   tag = tok.tag_
   if tag in tag_map:
@@ -75,16 +87,6 @@ def is_hard(tup):
 def get_score(tup):
   return rank[tup[0]]
 
-def load_ranks():
-    corpus = open("word_order.csv").readlines()
-    print corpus[0:10]
-    rank = {}
-
-    for line in corpus:
-        line = line.split(",")
-        ranks[line[0]] = int(line[1][1:-1])
-
-    return rank
 ## UNIT TESTS
 
 def test():
