@@ -17,7 +17,7 @@ def load_ranks():
 ranks = load_ranks()
 
 #The "reading level", or relative frequency we use to establish whether a word is "difficult"
-relative_hard = 10000
+relative_hard = 5000
 
 #English model for
 en_nlp = spacy.load('en')
