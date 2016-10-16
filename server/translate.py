@@ -112,10 +112,11 @@ def test():
   print reconjugate("pretty", best)
   print reconjugate("find", used)
   print translate(unhinged)
-  sent = u"Hidden from reading, I closed my door and got in bed."
+  sent = u"Hidden from unhinged reading, I closed my door and got in bed."
   sent_toks = tokenize(sent)
-  print "is hidden hard?"
-  print is_hard(sent_toks[0])
+  print "is miniscule hard?"
+  print is_hard(sent_toks[2])
+  print transform(sent)
 
   print is_hard(transpirating)
   print is_hard(the)
