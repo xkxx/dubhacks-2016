@@ -30,6 +30,7 @@ word_headers = {
 }
 
 pos_map = {
+  'PROPN': 'noun',
   'NOUN': 'noun',
   'ADJ': 'adjective',
   'ADV': 'adverb',
@@ -52,13 +53,16 @@ def transform(doc_str):
 
 def translate(tok):
   syns = get_syn(tok)
+  print 'replacements for', tok.orth_, syns
   if len(syns) == 0:
     return tok.orth_
   syns_with_scores = [(get_score(syn), syn) for syn in syns]
+  print syns_with_scores
   best = min(syns_with_scores)
-  print 'original', tok.orth_, 'score', get_score(tok.lemma)
-  print 'replacement', syn, 'score', get_score(syn)
-  if get_score(syn) >= get_score(tok.lemma_):
+  print best
+  print 'original', tok.orth_, 'score', get_score(tok.lemma_)
+  print 'replacement', best[1], 'score', best[0]
+  if best[0] >= get_score(tok.lemma_):
     return tok.orth_
   return reconjugate(best[1], tok)
 
@@ -74,10 +78,12 @@ def get_syn(tok):
 
 def parse_syn(res, pos):
   res = res.get('results', [])
+  syns = []
   for item in res:
     if item['partOfSpeech'] == pos:
-      return item.get('synonyms', [])
-  return []
+      syns.extend(item.get('synonyms', []))
+#      syns.extend(item.get('typeOf', []))
+  return syns
 
 def reconjugate(syn, tok):
   tag = tok.tag_
@@ -98,7 +104,7 @@ def is_hard(tok):
   return get_score(tok.lemma_) > relative_hard
 
 def get_score(word):
-  return ranks.get(word, 10001)
+  return ranks.get(word, 40001)
 
 ## UNIT TESTS
 
@@ -107,22 +113,27 @@ def test():
   best = tokenize(u"This is the best")[3]
   used = tokenize(u"I was played like a flute")[2]
   transpirating = tokenize(u'transpirating')[0]
+  tranquility = tokenize(u'insure domestic Tranquility')[2]
   the = tokenize(u'the')[0]
+  constitution = tokenize(u'make this Constitution for the United States of America.')[2]
 
-  print tokenize(u"Merry has a little sheep")
-  print get_syn(unhinged)
-  print reconjugate("pretty", best)
-  print reconjugate("find", used)
-  print translate(unhinged)
+  # print tokenize(u"Merry has a little sheep")
+  # print get_syn(unhinged)
+  # print reconjugate("pretty", best)
+  # print reconjugate("find", used)
+  # print translate(unhinged)
   sent = u"Hidden from unhinged reading, I closed my door and got in bed."
-  sent_toks = tokenize(sent)
-  print "is miniscule hard?"
-  print is_hard(sent_toks[2])
-  print transform(sent)
+  #sent_toks = tokenize(sent)
+  #print "is miniscule hard?"
+  #print is_hard(sent_toks[2])
+  #print transform(sent)
+  print tranquility.pos_
+  print get_syn(tranquility)
+  print translate(constitution)
 
-  print is_hard(transpirating)
-  print is_hard(the)
-  print get_score('the')
+  #print is_hard(transpirating)
+  #print is_hard(the)
+  #print get_score('the')
 
 if __name__ == '__main__':
   test()
