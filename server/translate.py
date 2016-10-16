@@ -46,9 +46,10 @@ tag_map = {
 
 def transform(doc_str):
   toks = tokenize(doc_str)
-  return [translate(x) if is_hard(x) else x.orth_ for x in toks]
+  return ' '.join([translate(x) if is_hard(x) else x.orth_ for x in toks])
   
 def translate(tok):
+  print tok.orth_, 'needs translating'
   syns = get_syn(tok)
   if len(syns) == 0:
     return tok.orth_

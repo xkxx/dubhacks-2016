@@ -1,10 +1,13 @@
 from bottle import Bottle,static_file,run,request,get,post,response
 import json
+from translate import transform
    
 @post('/translate')
 def get_translate():
     req = json.load(request.body)
-    textDict = {"text":req['text'] + "and more!!!!", }
+    text = req['text']
+    transformed_text = transform(text)
+    textDict = {"text":'In other words: ' + transformed_text, }
     return json.dumps(textDict)
 
 @get('/static/:filepath')
