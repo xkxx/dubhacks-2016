@@ -19,7 +19,7 @@ ranks = load_ranks()
 
 
 #The "reading level", or relative frequency we use to establish whether a word is "difficult"
-relative_hard = 5000
+relative_hard = 1000
 
 #English model for
 en_nlp = spacy.load('en')
@@ -47,7 +47,7 @@ tag_map = {
 def transform(doc_str):
   toks = tokenize(doc_str)
   return [translate(x) if is_hard(x) else x.orth_ for x in toks]
-  
+
 def translate(tok):
   syns = get_syn(tok)
   if len(syns) == 0:
@@ -63,7 +63,7 @@ def tokenize(doc_str):
 
 def get_syn(tok):
   lemma = tok.orth_
-  
+
   res = requests.get(word_endpoint + lemma, headers=word_headers).json()
   syns = parse_syn(res, pos_map.get(tok.pos_, 'other'))
   return syns
@@ -96,7 +96,7 @@ def is_hard(tok):
 def get_score(word):
   if word in ranks.keys():
     return ranks[word]
-  return relative_hard*100
+  return relative_hard * 100
 
 ## UNIT TESTS
 
