@@ -19,7 +19,7 @@ ranks = load_ranks()
 
 
 #The "reading level", or relative frequency we use to establish whether a word is "difficult"
-relative_hard = 100
+relative_hard = 1000
 
 #English model for
 en_nlp = spacy.load('en')
@@ -98,7 +98,7 @@ def is_hard(tok):
   return get_score(tok.lemma_) > relative_hard
 
 def get_score(word):
-  return ranks.get(word, 10001)
+  return ranks.get(word, len(ranks.keys()))
 
 ## UNIT TESTS
 
@@ -123,6 +123,7 @@ def test():
   print is_hard(transpirating)
   print is_hard(the)
   print get_score('the')
+  print translate(tokenize(u"constitution")[0])
 
 if __name__ == '__main__':
   test()
