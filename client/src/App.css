@@ -1,9 +1,16 @@
+body {
+  height: 100%;
+  width: 100%;
+  background-color:rgb(50,50,50);
+}
+
 #name{
   color:rgb(270,270,270);
   margin-left:15%;
   margin-top:20px;
   font-family: 'Bungee Inline', cursive;
 }
+
 .spinner{
 position:absolute;
 margin-left:30%;
@@ -29,11 +36,8 @@ h2{
 }
 
 .secondd{
-  background-color:rgb(50,50,50);
   margin-top:-2.4%;
-  height:800px;
   margin-bottom:0px;
-
 }
 
 #text-body {

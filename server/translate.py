@@ -104,7 +104,7 @@ def is_hard(tok):
   return get_score(tok.lemma_) > relative_hard
 
 def get_score(word):
-  return ranks.get(word, len(ranks.keys() + 100000))
+  return ranks.get(word, len(ranks.keys()) + 100000)
 
 ## UNIT TESTS
 
@@ -123,7 +123,6 @@ def test():
   # print reconjugate("find", used)
   # print translate(unhinged)
   sent = u"Hidden from unhinged reading, I closed my door and got in bed."
-<<<<<<< HEAD
   #sent_toks = tokenize(sent)
   #print "is miniscule hard?"
   #print is_hard(sent_toks[2])
@@ -135,17 +134,12 @@ def test():
   #print is_hard(transpirating)
   #print is_hard(the)
   #print get_score('the')
-=======
   sent_toks = tokenize(sent)
-  print "is miniscule hard?"
-  print is_hard(sent_toks[2])
-  print transform(sent)
 
   print is_hard(transpirating)
   print is_hard(the)
   print get_score('the')
   print translate(tokenize(u"constitution")[0])
->>>>>>> 2d9bb3723d346919916208767441df253f52d7ff
 
 if __name__ == '__main__':
   test()
