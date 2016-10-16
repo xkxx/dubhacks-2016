@@ -5,11 +5,12 @@
   font-family: 'Bungee Inline', cursive;
 }
 .spinner{
-position:fixed;
+position:absolute;
 margin-left:30%;
 margin-right:30%;
   margin-top:20%;
   opacity:0.6;
+  
 
 }
 .form-control {
@@ -33,6 +34,7 @@ h2{
   margin-top:-2.4%;
   height:800px;
   margin-bottom:0px;
+  position:relative;
 
 }
 
@@ -40,6 +42,7 @@ h2{
   width:600px;
   height:300px;
   margin-bottom:10px;
+  position:relative;
 }
 
 .hi{
