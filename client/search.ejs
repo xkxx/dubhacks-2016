@@ -8,6 +8,16 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
         <link href="https://fonts.googleapis.com/css?family=Bungee+Inline|Lobster" rel="stylesheet">
     </head>
+    <script src="//code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script>
+        $("#button").on("click" , function(){
+           var text = $("#hello").value();
+           $.getJSON("/translate", text , function(data){
+               $("#hello").value(data.text);
+           })
+        })
+        
+    </script>
   <body>
       
 <!--<h1>Enter the text below</h1>-->
@@ -113,9 +123,9 @@ h2{
           <form action="/find" method="POST">
             <div class="">
             
-              <textarea id="hello"name="d" placeholder="Paste your text here!"></textarea>
+              <textarea id="hello" name="d" placeholder="Paste your text here!"></textarea>
             </div>
-            <button type="button" class="btn btn-primary btn-lg" >Turn it in</button>
+            <button id="button" type="button" class="btn btn-primary btn-lg" >Turn it in</button>
           </form>
        </div>
     </div>
