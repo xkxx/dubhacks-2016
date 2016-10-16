@@ -7,7 +7,7 @@ from pattern.en import conjugate, pluralize, comparative, superlative
 #Uses a csv file formatted as "word, line number"\n. Loads said csv file into a dictionary
 def load_ranks():
     rank = {}
-    with open("../data/google-10000-english-usa.txt") as f:
+    with open("../data/word_order.csv") as f:
         reader = csv.reader(f)
         index = 0
         for row in reader:

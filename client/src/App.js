@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
+import load from './load.gif';
 import './App.css';
 
 class App extends Component {
@@ -17,7 +18,7 @@ class App extends Component {
     });
   }
   onSubmit(e) {
-    let text = this.state.text;
+    let text = this.state.content;
     this.setState({
       loading: true,
       content: text,
@@ -48,7 +49,7 @@ class App extends Component {
     let loading = this.state.loading;
     let spin = null;
     if (loading) {
-      spin = (<img src="/static/load.gif" />);
+      spin = (<img src={load} />);
     }
     let onSubmit = this.onSubmit.bind(this);
     let onChange = this.onChange.bind(this);
