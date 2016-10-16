@@ -4,19 +4,20 @@ import spacy.parts_of_speech as POS
 import requests
 from pattern.en import conjugate, pluralize, comparative, superlative
 
-#Contains the relative frequency of all the words in a corpus, with the most frequently used word ranked "1"
+#Uses a csv file formatted as "word, line number"\n. Loads said csv file into a dictionary
 def load_ranks():
-    corpus = open("word_order.csv").readlines()
+    corpus = open("../data/word_order.csv").readlines()
     print corpus[0:10]
     rank = {}
 
     for line in corpus:
         line = line.split(",")
-        ranks[line[0]] = int(line[1][1:-1])
+        rank[line[0]] = int(line[1][1:-1])
 
     return rank
 
 ranks = load_ranks()
+
 
 #The "reading level", or relative frequency we use to establish whether a word is "difficult"
 relative_hard = 10000
@@ -45,7 +46,7 @@ tag_map = {
 }
 
 def transform(doc_str):
-  tups = tokenize(doc_str)
+  toks = tokenize(doc_str)
   return [translate(x) if is_hard(x) else x.orth_ for x in toks]
   
 def translate(tok):
@@ -91,8 +92,8 @@ def is_hard(tok):
     return False
   return get_score(tok.lemma_) > relative_hard
 
-def get_score(tup):
-  return rank[tup.lemma_]
+def get_score(word):
+  return rank[word]
 
 ## UNIT TESTS
 
@@ -100,6 +101,8 @@ def test():
   unhinged = tokenize(u"I am unhinged")[2]
   best = tokenize(u"This is the best")[3]
   used = tokenize(u"I was played like a flute")[2]
+  transpirating = tokenize(u'transpirating')[0]
+  the = tokenize(u'the')[0]
 
   #print tokenize(u"Merry has a little sheep")
   #print get_syn(unhinged)
@@ -108,9 +111,9 @@ def test():
   #print translate(unhinged)
   #print transform(u"Exhausted from reading, I closed my door and got in bed.")
 
-  print is_hard((u'transpirating',))
-  print is_hard((u'the',))
-  print get_score((u'the',))
+  print is_hard(transpirating)
+  print is_hard(the)
+  print get_score('the')
 
 if __name__ == '__main__':
   test()
