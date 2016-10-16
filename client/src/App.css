@@ -7,16 +7,12 @@
 body{
 position:relative;
 }
-.spinner{
-position:absolute;
-top:20%;
+img{
+  position:absolute;
+  top:0%;
   left:30%;
   right:30%;
-  
-margin-left:30%;
-margin-right:30%;
-  margin-top:20%;
-  opacity:0.6;
+  opacity:0.9;
   
 
 }
