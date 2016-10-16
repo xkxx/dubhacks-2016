@@ -1,19 +1,18 @@
 from api_key import API_KEY
-import spacy
+import spacy, csv, requests
 import spacy.parts_of_speech as POS
 import requests
 from pattern.en import conjugate, pluralize, comparative, superlative
 
 #Uses a csv file formatted as "word, line number"\n. Loads said csv file into a dictionary
 def load_ranks():
-    corpus = open("../data/word_order.csv").readlines()
-    print corpus[0:10]
     rank = {}
-
-    for line in corpus:
-        line = line.split(",")
-        rank[line[0]] = int(line[1][1:-1])
-
+    with open("../data/word_order.csv") as f:
+        reader = csv.reader(f)
+        index = 0
+        for row in reader:
+            index += 1
+            rank[row[0]] = index
     return rank
 
 ranks = load_ranks()
@@ -54,8 +53,10 @@ def translate(tok):
   if len(syns) == 0:
     return tok.orth_
   syns_with_scores = [(get_score(syn), syn) for syn in syns]
-  best = min(syns_with_scores)[1]
-  return reconjugate(best, tok)
+  best = min(syns_with_scores)
+  if get_score(syn) > get_score(tok.lemma_):
+    return tok.orth_
+  return reconjugate(best[1], tok)
 
 def tokenize(doc_str):
   return en_nlp(doc_str)
@@ -93,7 +94,9 @@ def is_hard(tok):
   return get_score(tok.lemma_) > relative_hard
 
 def get_score(word):
-  return rank[word]
+  if word in ranks.keys():
+    return ranks[word]
+  return relative_hard*100
 
 ## UNIT TESTS
 
@@ -104,12 +107,15 @@ def test():
   transpirating = tokenize(u'transpirating')[0]
   the = tokenize(u'the')[0]
 
-  #print tokenize(u"Merry has a little sheep")
-  #print get_syn(unhinged)
-  #print reconjugate("pretty", best)
-  #print reconjugate("find", used)
-  #print translate(unhinged)
-  #print transform(u"Exhausted from reading, I closed my door and got in bed.")
+  print tokenize(u"Merry has a little sheep")
+  print get_syn(unhinged)
+  print reconjugate("pretty", best)
+  print reconjugate("find", used)
+  print translate(unhinged)
+  sent = u"Hidden from reading, I closed my door and got in bed."
+  sent_toks = tokenize(sent)
+  print "is hidden hard?"
+  print is_hard(sent_toks[0])
 
   print is_hard(transpirating)
   print is_hard(the)
