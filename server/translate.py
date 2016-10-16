@@ -96,7 +96,7 @@ def is_hard(tok):
 def get_score(word):
   if word in ranks.keys():
     return ranks[word]
-  return relative_hard * 100
+  return relative_hard * 10000
 
 ## UNIT TESTS
 
