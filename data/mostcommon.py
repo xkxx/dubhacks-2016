@@ -1,15 +1,25 @@
-import nltk, csv
+import nltk
+import csv
+import spacy
 from collections import Counter
-corpus = []
+
 cnt = Counter()
 
+en_model = spacy.load('en')
+
 for file in nltk.corpus.brown.fileids():
-    for word in nltk.corpus.brown.words(file):
-        corpus.append(str(word))
+    bullshit = nltk.corpus.brown.words(file)
+    document = ""
+    for word in bullshit:
+        document += word + " "
+
+print document
+
+corpus = en_model(document)
 
 for word in corpus:
-    if word not in ".,;()-'\"?!``''--:":
-        cnt[word] += 1
+    if str(word) not in u".!?,;:'\"--'``'''()1234567890":
+        cnt[str(word.lemma_)] += 1
 
 cnt = [[x[0]] for x in cnt.most_common()]
 
