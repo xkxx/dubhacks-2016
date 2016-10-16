@@ -8,6 +8,8 @@ ranks = load_ranks()
 
 #The "reading level", or relative frequency we use to establish whether a word is "difficult"
 relative_hard = 10000
+
+#English model for
 en_nlp = spacy.load('en')
 word_endpoint = 'https://wordsapiv1.p.mashape.com/words/'
 word_headers = {
