@@ -55,12 +55,8 @@ class App extends Component {
     let onChange = this.onChange.bind(this);
     return (
      <div>
-      <div className="jumbotron top">
-        <h1 id="name">Name of the website</h1>
-        <p id="name">Some long gibberish text goes right here so  that it looks sensible</p>
-      </div>
      <div className="jumbotron secondd"> 
-        <h2 className="hi"><span className="glyphicon glyphicon-pencil" aria-hidden="true"></span>   Some more random text here</h2>
+        <h2 className="hi"><span className="glyphicon glyphicon-pencil" aria-hidden="true"></span>  Decomplicate </h2>
         <div className="text">
           <form>
             <div>
