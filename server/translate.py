@@ -45,8 +45,10 @@ tag_map = {
 }
 
 def transform(doc_str):
+  print 'tokenizing ...'
   toks = tokenize(doc_str)
-  return [translate(x) if is_hard(x) else x.orth_ for x in toks]
+  print 'tokenizing done'
+  return ' '.join([translate(x) if is_hard(x) else x.orth_ for x in toks])
 
 def translate(tok):
   syns = get_syn(tok)
@@ -54,7 +56,9 @@ def translate(tok):
     return tok.orth_
   syns_with_scores = [(get_score(syn), syn) for syn in syns]
   best = min(syns_with_scores)
-  if get_score(syn) > get_score(tok.lemma_):
+  print 'original', tok.orth_, 'score', get_score(tok.lemma)
+  print 'replacement', syn, 'score', get_score(syn)
+  if get_score(syn) >= get_score(tok.lemma_):
     return tok.orth_
   return reconjugate(best[1], tok)
 
@@ -69,10 +73,10 @@ def get_syn(tok):
   return syns
 
 def parse_syn(res, pos):
-  res = res['results']
+  res = res.get('results', [])
   for item in res:
     if item['partOfSpeech'] == pos:
-      return item['synonyms']
+      return item.get('synonyms', [])
   return []
 
 def reconjugate(syn, tok):
@@ -94,9 +98,7 @@ def is_hard(tok):
   return get_score(tok.lemma_) > relative_hard
 
 def get_score(word):
-  if word in ranks.keys():
-    return ranks[word]
-  return relative_hard * 10000
+  return ranks.get(word, 10001)
 
 ## UNIT TESTS
 
