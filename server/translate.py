@@ -7,7 +7,7 @@ from pattern.en import conjugate, pluralize, comparative, superlative
 #Uses a csv file formatted as "word, line number"\n. Loads said csv file into a dictionary
 def load_ranks():
     rank = {}
-    with open("../data/word_order.csv") as f:
+    with open("../data/google-10000-english-usa.txt") as f:
         reader = csv.reader(f)
         index = 0
         for row in reader:
@@ -45,17 +45,20 @@ tag_map = {
 }
 
 def transform(doc_str):
+  print 'tokenizing ...'
   toks = tokenize(doc_str)
+  print 'tokenizing done'
   return ' '.join([translate(x) if is_hard(x) else x.orth_ for x in toks])
 
 def translate(tok):
-  print tok.orth_, 'needs translating'
   syns = get_syn(tok)
   if len(syns) == 0:
     return tok.orth_
   syns_with_scores = [(get_score(syn), syn) for syn in syns]
   best = min(syns_with_scores)
-  if get_score(syn) > get_score(tok.lemma_):
+  print 'original', tok.orth_, 'score', get_score(tok.lemma)
+  print 'replacement', syn, 'score', get_score(syn)
+  if get_score(syn) >= get_score(tok.lemma_):
     return tok.orth_
   return reconjugate(best[1], tok)
 
@@ -73,7 +76,7 @@ def parse_syn(res, pos):
   res = res.get('results', [])
   for item in res:
     if item['partOfSpeech'] == pos:
-      return item['synonyms']
+      return item.get('synonyms', [])
   return []
 
 def reconjugate(syn, tok):
@@ -95,9 +98,7 @@ def is_hard(tok):
   return get_score(tok.lemma_) > relative_hard
 
 def get_score(word):
-  if word in ranks.keys():
-    return ranks[word]
-  return relative_hard * 100
+  return ranks.get(word, 10001)
 
 ## UNIT TESTS
 

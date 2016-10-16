@@ -10,12 +10,12 @@ def get_translate():
     textDict = {"text":'In other words: ' + transformed_text, }
     return json.dumps(textDict)
 
-@get('/static/:filepath')
-def serve_static(filepath):
-    return static_file(filepath, root='../client')
-
 @get('/')
 def serve_index():
     return serve_static('index.html')
+
+@get('/<path:path>')
+def serve_static(path):
+    return static_file(path, root='../client/build/')
  
 run(host='0.0.0.0', port=8080)
