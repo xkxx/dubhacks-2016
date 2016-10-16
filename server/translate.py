@@ -1,18 +1,16 @@
 from api_key import API_KEY
-import spacy
+import spacy, csv, requests
 import spacy.parts_of_speech as POS
-import requests
 
 #Uses a csv file formatted as "word, line number"\n. Loads said csv file into a dictionary
 def load_ranks():
-    corpus = open("../data/word_order.csv").readlines()
-    print corpus[0:10]
     rank = {}
-
-    for line in corpus:
-        line = line.split(",")
-        rank[line[0]] = int(line[1][1:-1])
-
+    with open("../data/word_order.csv") as f:
+        reader = csv.reader(f)
+        index = 0
+        for row in reader:
+            index += 1
+            rank[row[0]] = index
     return rank
 
 #Contains the relative frequency of all the words in a corpus, with the most frequently used word ranked "1"
@@ -84,8 +82,10 @@ def is_hard(tup):
     return False
   return get_score(tup[0]) > relative_hard
 
-def get_score(tup):
-  return rank[tup[0]]
+def get_score(word):
+    if word in ranks.keys():
+        return ranks[word]
+    return relative_hard*100
 
 ## UNIT TESTS
 
@@ -95,8 +95,8 @@ def test():
   print translate(('unhinged', 'unhinged', 'adjective'))
   print transform(u"Exhausted from reading, I closed my door and got in bed.")
   print is_hard((u'transpirating',))
-  print is_hard((u'the',))
-  print get_score((u'the',))
+  print is_hard(u'the')
+  print get_score(u'the')
 
 if __name__ == '__main__':
   test()
