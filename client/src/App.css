@@ -5,11 +5,11 @@
   font-family: 'Bungee Inline', cursive;
 }
 .spinner{
-position:absolute;
+position:fixed;
 margin-left:30%;
 margin-right:30%;
   margin-top:20%;
-  opacity:0.8;
+  opacity:0.6;
 
 }
 .form-control {
