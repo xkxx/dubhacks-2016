@@ -1,12 +1,3 @@
-.top{
-  background-image:url(http://i64.tinypic.com/ivwjf4.png);
-  background-position: 10% 50%;
-  background-size: cover;
-  background-repeat: no-repeat;
-  margin-bottom:0px;
-  height:300px
-}
-
 #name{
   color:rgb(270,270,270);
   margin-left:15%;
@@ -24,7 +15,8 @@ h2{
  
 }
 .text{
-  margin-left:15%;
+  margin-left:25%;
+  margin-right:25;
   margin-top:20px;
   width:80px;
 }
@@ -32,7 +24,7 @@ h2{
 .secondd{
   background-color:rgb(50,50,50);
   margin-top:-2.4%;
-  height:560px;
+  height:580px;
   margin-bottom:0px;
 
 }
@@ -46,6 +38,9 @@ h2{
 .hi{
   font-family: 'Lobster', cursive;
   font-size:50px;
+  margin-top:50px;
+  margin-left:25%;
+  margin-right:25;
   color:rgb(150,150,150);
 }
 #drop_zone {
