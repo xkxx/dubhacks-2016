@@ -16,12 +16,16 @@ body{
 }
 
 .spinner{
-  position:absolute;
   margin-left:30%;
   margin-right:30%;
+position:absolute;
+top:20%;
+  left:30%;
+  right:30%;
+margin-left:30%;
+margin-right:30%;
   margin-top:20%;
   opacity:0.6;
-  
 
 }
 .form-control {

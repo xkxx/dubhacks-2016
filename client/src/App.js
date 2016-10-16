@@ -7,7 +7,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: false,
+      loading: true,
       content: "",
     };
   }
@@ -63,7 +63,7 @@ class App extends Component {
               <textarea id="text-body" name="d" placeholder="Paste your text here!" value={this.state.content} onChange={onChange} disabled={loading} />
             </div>
             <button className="btn btn-primary btn-lg" disabled={loading} onClick={onSubmit}>Turn it in</button>
-            <div class='spinner'>
+            <div className='spinner'>
             {spin}
             </div>
           </form>
