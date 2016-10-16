@@ -4,7 +4,7 @@ app = Bottle()
 
 @app.route('/static/<filepath:path>')
 def server_static(filepath):
-    return static_file(filepath, root='C:\Users\littlepirlo\Desktop\web')
+    return static_file(filepath, root='../client')
 @app.route('\array')
 def returnarray():
     
