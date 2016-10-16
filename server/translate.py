@@ -2,8 +2,20 @@ from api_key import API_KEY
 import spacy
 import spacy.parts_of_speech as POS
 import requests
+from pattern.en import conjugate, pluralize, comparative, superlative
 
 #Contains the relative frequency of all the words in a corpus, with the most frequently used word ranked "1"
+def load_ranks():
+    corpus = open("word_order.csv").readlines()
+    print corpus[0:10]
+    rank = {}
+
+    for line in corpus:
+        line = line.split(",")
+        ranks[line[0]] = int(line[1][1:-1])
+
+    return rank
+
 ranks = load_ranks()
 
 #The "reading level", or relative frequency we use to establish whether a word is "difficult"
@@ -24,27 +36,34 @@ pos_map = {
   'VERB': 'verb',
 }
 
+tag_map = {
+ 'VBD': 'p',
+ 'VBG': 'part',
+ 'VBN': 'ppart',
+ 'VBP': '1sg',
+ 'VBZ': '3sg',
+}
+
 def transform(doc_str):
   tups = tokenize(doc_str)
-  return [translate(x) if is_hard(x) else x[0] for x in tups]
-
-def translate(tup):
-  syns = get_syn(tup)
+  return [translate(x) if is_hard(x) else x.orth_ for x in toks]
+  
+def translate(tok):
+  syns = get_syn(tok)
   if len(syns) == 0:
-    return tup[0]
+    return tok.orth_
   syns_with_scores = [(get_score(syn), syn) for syn in syns]
   best = min(syns_with_scores)[1]
-  return best
+  return reconjugate(best, tok)
 
 def tokenize(doc_str):
-  doc = en_nlp(doc_str)
-  return [(x.orth_, x.lemma_, pos_map.get(x.pos_, 'other')) for x in doc]
+  return en_nlp(doc_str)
 
-def get_syn(tup):
-  (word, lemma, pos) = tup
-
+def get_syn(tok):
+  lemma = tok.orth_
+  
   res = requests.get(word_endpoint + lemma, headers=word_headers).json()
-  syns = parse_syn(res, pos)
+  syns = parse_syn(res, pos_map.get(tok.pos_, 'other'))
   return syns
 
 def parse_syn(res, pos):
@@ -53,7 +72,7 @@ def parse_syn(res, pos):
     if item['partOfSpeech'] == pos:
       return item['synonyms']
   return []
-  
+
 def reconjugate(syn, tok):
   tag = tok.tag_
   if tag in tag_map:
@@ -67,31 +86,28 @@ def reconjugate(syn, tok):
   # do nothing
   return syn
 
-def is_hard(tup):
-  if len(tup[0]) < 3:
+def is_hard(tok):
+  if len(tok.orth_) < 3:
     return False
-  return get_score(tup[0]) > relative_hard
+  return get_score(tok.lemma_) > relative_hard
 
 def get_score(tup):
-  return rank[tup[0]]
+  return rank[tup.lemma_]
 
-def load_ranks():
-    corpus = open("word_order.csv").readlines()
-    print corpus[0:10]
-    rank = {}
-
-    for line in corpus:
-        line = line.split(",")
-        ranks[line[0]] = int(line[1][1:-1])
-
-    return rank
 ## UNIT TESTS
 
 def test():
-  print tokenize(u"Merry has a little sheep")
-  print get_syn(('unhinged', 'unhinged', 'adjective'))
-  print translate(('unhinged', 'unhinged', 'adjective'))
-  print transform(u"Exhausted from reading, I closed my door and got in bed.")
+  unhinged = tokenize(u"I am unhinged")[2]
+  best = tokenize(u"This is the best")[3]
+  used = tokenize(u"I was played like a flute")[2]
+
+  #print tokenize(u"Merry has a little sheep")
+  #print get_syn(unhinged)
+  #print reconjugate("pretty", best)
+  #print reconjugate("find", used)
+  #print translate(unhinged)
+  #print transform(u"Exhausted from reading, I closed my door and got in bed.")
+
   print is_hard((u'transpirating',))
   print is_hard((u'the',))
   print get_score((u'the',))
