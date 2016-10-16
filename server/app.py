@@ -3,8 +3,8 @@ import json
    
 @post('/translate')
 def get_translate():
-    text = request.body.read()
-    textDict = {"text":text,}
+    req = json.load(request.body)
+    textDict = {"text":req['text'] + "and more!!!!", }
     return json.dumps(textDict)
 
 @get('/static/:filepath')
