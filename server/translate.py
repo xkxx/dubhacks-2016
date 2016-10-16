@@ -53,6 +53,19 @@ def parse_syn(res, pos):
     if item['partOfSpeech'] == pos:
       return item['synonyms']
   return []
+  
+def reconjugate(syn, tok):
+  tag = tok.tag_
+  if tag in tag_map:
+    return conjugate(syn, tag_map[tag], parse=True)
+  if tag == 'JJR' or tag == 'RBR':
+    return comparative(syn)
+  if tag == 'JJS' or tag == 'RBS':
+    return superlative(syn)
+  if tag.startswith('N') and tag.endswith('S'):
+    return pluralize(syn)
+  # do nothing
+  return syn
 
 def is_hard(tup):
   if len(tup[0]) < 3:
