@@ -4,6 +4,9 @@
   margin-top:20px;
   font-family: 'Bungee Inline', cursive;
 }
+body{
+position:relative;
+}
 .spinner{
 position:absolute;
 margin-left:30%;
@@ -34,7 +37,7 @@ h2{
   margin-top:-2.4%;
   height:800px;
   margin-bottom:0px;
-  position:relative;
+  
 
 }
 
@@ -42,7 +45,7 @@ h2{
   width:600px;
   height:300px;
   margin-bottom:10px;
-  position:relative;
+  
 }
 
 .hi{
